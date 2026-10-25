@@ -1,4 +1,4 @@
-// script.js
+// file script.js
 document.getElementById("pesan").textContent = "Hello Word";
 console.log("Hello World");
 console.log("Pesan di Console");
