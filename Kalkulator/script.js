@@ -1,7 +1,8 @@
-// script.js
+// Menghitung Nilai Mahasiswa
 function hitungNilaiAkhir(tugas, uts, uas) {
     return tugas * 0.30 + uts * 0.30 + uas * 0.40;
 }
+
 function tentukanPredikat(nilai) {
     if (nilai >= 85) return "A";
     if (nilai >= 75) return "B";
@@ -10,24 +11,40 @@ function tentukanPredikat(nilai) {
     return "E";
 }
 
-function tampilkanHasil(akhir, predikat, status) {
-    const el = document.getElementById("hasil");
-    el.innerHTML = `Nilai Akhir: <b>${akhir.toFixed(2)}</b><br>Predikat: <b>${predikat}</b><br>Status: <b>${status}</b>`;
+function tentukanStatus(nilai) {
+    return nilai >= 60 ? "Lulus" : "Belum lulus";
 }
 
-function hitungNilai() {
-    const tugas = Number(document.getElementById("tugas").value);
-    const uts = Number(document.getElementById("uts").value);
-    const uas = Number(document.getElementById("uas").value);
+function validasiNilai(nilai) {
+    return !isNaN(nilai) && nilai >= 0 && nilai <= 100;
+}
 
-    if (isNaN(tugas) || isNaN(uts) || isNaN(uas)) {
-        alert("Isi semua nilai dulu!");
+function tampilkanHasil(akhir, predikat, status) {
+    const el = document.getElementById("hasil");
+    el.style.display = "block";
+    el.innerHTML = `
+    Nilai Akhir: <b>${akhir.toFixed(2)}</b><br>
+    Predikat: <b>${predikat}</b><br>
+    Status: <b>${status}</b>
+  `;
+    console.log("Nilai akhir:", akhir.toFixed(2));
+    console.log("Predikat:", tentukanPredikat(akhir));
+    console.log("Status:", akhir >= 60 ? "Lulus" : "Belum lulus");
+}
+
+function prosesNilai() {
+    const tugas = parseFloat(document.getElementById("tugas").value);
+    const uts = parseFloat(document.getElementById("uts").value);
+    const uas = parseFloat(document.getElementById("uas").value);
+
+    if (!validasiNilai(tugas) || !validasiNilai(uts) || !validasiNilai(uas)) {
+        alert("Error: Semua nilai harus diisi angka 0-100!");
         return;
     }
 
-    const akhir = (tugas * 0.3) + (uts * 0.3) + (uas * 0.4);
+    const akhir = hitungNilaiAkhir(tugas, uts, uas);
     const predikat = tentukanPredikat(akhir);
-    const status = akhir >= 60 ? "Lulus" : "Tidak Lulus";
+    const status = tentukanStatus(akhir);
 
     tampilkanHasil(akhir, predikat, status);
 }
